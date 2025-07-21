@@ -38,6 +38,13 @@ public class ProductRepository : IProductRepository
    public IEnumerable<Category> GetCategories()
    {
       return _conn.Query<Category>("SELECT * FROM categories;");
+      
+   }
+   public void DeleteProduct(Product product)
+   {
+      _conn.Execute("DELETE FROM REVIEWS WHERE ProductID = @id", new { id = product.ProductId });
+      _conn.Execute("DELETE FROM Sales WHERE ProductID = @id", new { id = product.ProductId } );
+      _conn.Execute("DELETE FROM Products WHERE  ProductID = @id", new { id = product.ProductId } );
    }
    public Product AssignCategory()
    {
@@ -46,4 +53,7 @@ public class ProductRepository : IProductRepository
       product.Categories = categoryList;
       return product;
    }
+
+   
+   
 }
